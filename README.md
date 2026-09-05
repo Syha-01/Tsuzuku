@@ -12,6 +12,53 @@ between: nothing to go down between your phone and the source.
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
 
+## Screens
+
+<p align="center">
+  <img src="screenshots/03-player.webp" width="640" alt="The player in landscape with its controls showing">
+</p>
+
+<p align="center"><b>The player</b> — landscape whichever way the rest of the app is set. Quality,
+audio track and subtitles sit in the controls rather than behind a settings gear, beside a
+<code>+85s</code> button for clearing an opening. Everything else is a gesture.</p>
+
+<table>
+<tr>
+<td align="center" width="25%"><img src="screenshots/01-home.webp" width="180" alt="Home"><br><b>Home</b><br><sub>Spotlight, Continue Watching and a ranked grid</sub></td>
+<td align="center" width="25%"><img src="screenshots/02-series-detail.webp" width="180" alt="Series detail"><br><b>Series detail</b><br><sub>Rating, resume, and a countdown to the next episode</sub></td>
+<td align="center" width="25%"><img src="screenshots/04-download-picker.webp" width="180" alt="Downloading"><br><b>Downloading</b><br><sub>Pick a batch; only the sizes it comes in</sub></td>
+<td align="center" width="25%"><img src="screenshots/05-add-to-list.webp" width="180" alt="Tracking"><br><b>Tracking</b><br><sub>Watching, Later, Done or Dropped</sub></td>
+</tr>
+<tr>
+<td align="center" width="25%"><img src="screenshots/06-saved.webp" width="180" alt="Saved"><br><b>Saved</b><br><sub>Split by status, with progress against the episode count</sub></td>
+<td align="center" width="25%"><img src="screenshots/07-schedule.webp" width="180" alt="Schedule"><br><b>Schedule</b><br><sub>Estimated air times in your timezone</sub></td>
+<td align="center" width="25%"><img src="screenshots/08-search-browse.webp" width="180" alt="Search &amp; browse"><br><b>Search &amp; browse</b><br><sub>Eleven listings and forty-seven genres</sub></td>
+<td align="center" width="25%"><img src="screenshots/09-downloads.webp" width="180" alt="Downloads"><br><b>Downloads</b><br><sub>Saved episodes, playable with no internet</sub></td>
+</tr>
+</table>
+
+<details>
+<summary><b>Settings</b> — eight sections, each one folds open on its own</summary>
+
+<br>
+
+<table>
+<tr>
+<td align="center" width="25%"><img src="screenshots/10-settings-playback.webp" width="180" alt="Playback"><br><b>Playback</b><br><sub>Subtitle and autoplay defaults</sub></td>
+<td align="center" width="25%"><img src="screenshots/11-settings-display.webp" width="180" alt="Display"><br><b>Display</b><br><sub>Orientation, and where Saved opens</sub></td>
+<td align="center" width="25%"><img src="screenshots/12-settings-subtitles.webp" width="180" alt="Subtitles"><br><b>Subtitles</b><br><sub>Size, colour and background</sub></td>
+<td align="center" width="25%"><img src="screenshots/13-settings-downloads.webp" width="180" alt="Downloads"><br><b>Downloads</b><br><sub>Default quality and storage used</sub></td>
+</tr>
+<tr>
+<td align="center" width="25%"><img src="screenshots/14-settings-catalogue.webp" width="180" alt="Catalogue"><br><b>Catalogue</b><br><sub>Scraper version, and clearing its cache</sub></td>
+<td align="center" width="25%"><img src="screenshots/15-settings-connection.webp" width="180" alt="Connection"><br><b>Connection</b><br><sub>Names the first step of the chain that fails</sub></td>
+<td align="center" width="25%"><img src="screenshots/16-settings-app.webp" width="180" alt="App"><br><b>App</b><br><sub>Over-the-air updates, clearing history</sub></td>
+<td align="center" width="25%"><img src="screenshots/17-settings-whats-new.webp" width="180" alt="What's new"><br><b>What's new</b><br><sub>Release notes, newest first</sub></td>
+</tr>
+</table>
+
+</details>
+
 ## What it does
 
 - **Episodes saved to the phone** — pick a batch, or hold one episode to grab just that one. They play with no connection at all, subtitles included, and the progress counts the same as if you had streamed it. Downloads keep running in the background and pick up where they stopped if the app is killed.
