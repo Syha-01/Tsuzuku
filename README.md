@@ -8,12 +8,13 @@ between: nothing to go down between your phone and the source.
 
 | Build | Version | Released | Size | |
 | --- | --- | --- | --- | --- |
-| **Mobile (arm64)** — phone app (Android). Quality switching mid-episode, sub and dub, styleable subtitles. | v1.0.1 | 29 Aug 2026 | ~32 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v1.0.1/tsuzuku-v1.0.1-arm64.apk) |
+| **Mobile (arm64)** — phone app (Android). Offline downloads, quality switching mid-episode, sub and dub, styleable subtitles. | v1.1.0 | 4 Sep 2026 | ~32 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v1.1.0/tsuzuku-v1.1.0-arm64.apk) |
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
 
 ## What it does
 
+- **Episodes saved to the phone** — pick a batch, or hold one episode to grab just that one. They play with no connection at all, subtitles included, and the progress counts the same as if you had streamed it. Downloads keep running in the background and pick up where they stopped if the app is killed.
 - **Quality switching that keeps playing** — pick a rendition mid-episode and the picture changes while the timeline doesn't. The choice is remembered across episodes.
 - **Sub and dub as separate lists**, switchable mid-watch.
 - **Subtitles rendered by the app** — size, colour and background are yours to set, and cues that drift against the video are pulled back into line.
