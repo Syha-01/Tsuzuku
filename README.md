@@ -83,3 +83,16 @@ and Android Studio emulators are not covered.
 
 Some networks and internet providers block streaming content. If the app can't
 reach the source on your connection, a VPN usually settles it.
+
+## For developers
+
+**[MegaPlay stopped returning a stream](megaplay-fix.md)** — September 2026.
+`/stream/getSources` swapped the stream URL for an encrypted blob, so anything
+reading `sources.file` got nothing and reported it as a missing server. The fix
+is an endpoint, not a cipher: MegaPlay's own player had already moved to
+`/stream/getSourcesNew`, which still answers in plaintext.
+
+Written up for anyone else scraping AniKoto or MegaPlay — what broke, why it
+only appeared to affect some episodes, the CDN host that 403s video while still
+serving subtitles, and the diagnostics worth building so the next change is
+legible. There is [an offline copy](megaplay-fix.html) too.
