@@ -93,6 +93,6 @@ is an endpoint, not a cipher: MegaPlay's own player had already moved to
 `/stream/getSourcesNew`, which still answers in plaintext.
 
 Written up for anyone else scraping AniKoto or MegaPlay — what broke, why it
-only appeared to affect some episodes, the CDN host that 403s video while still
-serving subtitles, and the diagnostics worth building so the next change is
-legible. There is [an offline copy](megaplay-fix.html) too.
+only appeared to affect some episodes, the drop-in replacement for
+`getSources`, and the CDN host that 403s video while still serving subtitles.
+There is [an offline copy](megaplay-fix.html) too.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MegaPlay Playback Fix</title>
+<title>MegaPlay Endpoint Change</title>
 <style>
   :root {
     --bg: #fbfaf8; --panel: #ffffff; --ink: #1a1a1f; --dim: #5a5a68;
@@ -42,10 +42,9 @@
     font-size: 21px; margin: 48px 0 14px; letter-spacing: -.01em;
     padding-top: 20px; border-top: 1px solid var(--rule);
   }
-  h3 { font-size: 16px; margin: 28px 0 8px; }
   p { margin: 0 0 14px; }
-  ul, ol { margin: 0 0 14px; padding-left: 22px; }
-  li { margin-bottom: 7px; }
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
   code {
     font: 13.5px/1.5 var(--mono); background: var(--code-bg);
     padding: 1.5px 5px; border-radius: 4px; color: var(--ink);
@@ -66,8 +65,6 @@
     padding: 15px 18px; margin: 0 0 18px;
   }
   .box.good { border-left-color: var(--ok); }
-  .box.bad { border-left-color: var(--bad); }
-  .box.warn { border-left-color: var(--warn); }
   .box p:last-child { margin-bottom: 0; }
   .box .label {
     font: 600 10.5px/1 var(--mono); letter-spacing: .13em; text-transform: uppercase;
@@ -75,70 +72,44 @@
   }
   .ok { color: var(--ok); font-weight: 600; }
   .bad { color: var(--bad); font-weight: 600; }
-  .chain {
-    font: 13px/1.9 var(--mono); background: var(--code-bg);
-    border: 1px solid var(--rule); border-radius: 8px; padding: 18px; overflow-x: auto;
-    margin: 0 0 18px; white-space: pre;
-  }
   footer {
     margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--rule);
     color: var(--faint); font-size: 13.5px;
   }
+  footer a { color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
-  <div class="eyebrow">Tsuzuku · Incident &amp; Fix</div>
+  <div class="eyebrow">AniKoto · MegaPlay</div>
   <h1>MegaPlay stopped returning a stream</h1>
-  <p class="sub">Why episodes 10 and 12 would not play, what actually fixed it, and how to keep a scraper working when a host changes its extraction contract.</p>
-  <div class="meta">
-    6 September 2026 · anikototv.to → megaplay.buzz<br>
-    Shipped OTA to runtime <code>14603ec1</code> (v1.1.0)
-  </div>
+  <p class="sub">If your app started failing with "no servers available" while the site still plays fine in a browser, nothing is blocked — the endpoint changed shape.</p>
+  <div class="meta">6 September 2026 · anikototv.to → megaplay.buzz</div>
 </header>
 
 <h2>Summary</h2>
 
-<p>MegaPlay changed <code>/stream/getSources</code> to return an encrypted blob in place of the stream URL. Tsuzuku read the old field, got nothing, and reported "no available servers" on any episode whose only servers were MegaPlay-backed.</p>
+<p><code>/stream/getSources</code> stopped returning the stream URL and started returning an encrypted blob instead. Any extractor reading <code>sources.file</code> got <code>null</code>, which surfaces as a missing server rather than a changed format.</p>
 
 <div class="box good">
-  <span class="label">What actually fixed it</span>
-  <p>Not decryption. MegaPlay's own web client had already moved to a second endpoint, <code>/stream/getSourcesNew</code>, which still returns the file in plaintext. Asking for that first restored playback without decrypting anything.</p>
-  <p>The decryption exists as a fallback for the day that endpoint disappears. It does not run during normal playback.</p>
+  <span class="label">The fix is an endpoint, not a cipher</span>
+  <p>MegaPlay's own web client had already moved to <code>/stream/getSourcesNew</code>, which still returns the file in plaintext. Asking for that first restores playback.</p>
 </div>
-
-<h2>The symptom</h2>
-
-<p>Episodes 1–9 and 11 of a twelve-episode series played. Episodes 10 and 12 said no servers were available — while the same episodes played fine in a browser on the site itself.</p>
-
-<p>That split is the most useful thing in the whole incident, because it rules out the obvious explanations. It is not the network, not DNS, not an ISP block, and not the site being down: those would take out the whole series, not two episodes of it.</p>
-
-<h2>The chain</h2>
-
-<p>The video never comes from the site you browse. Four hops sit between a tap and a picture, and each one can fail independently:</p>
-
-<div class="chain">anikototv.to          /ajax/server/list      → which servers exist for this episode
-anikototv.to          /ajax/server?get=id    → a link id becomes an embed URL
-megaplay.buzz         /stream/&lt;path&gt;        → the embed page, carrying a numeric data-id
-megaplay.buzz         /stream/getSources     → the data-id becomes a stream URL
-&lt;cdn host&gt;            master.m3u8            → the playlist, then segments</div>
-
-<p>Diagnosing this means walking the hops in order and finding the first that misbehaves. Checking the site in a browser tests hop one, which was never the problem.</p>
 
 <h2>Root cause</h2>
 
-<p>Hop four changed shape. It used to answer:</p>
+<p><code>/stream/getSources</code> used to answer:</p>
 
 <pre><code>{ "sources": { "file": "https://…/master.m3u8" }, "tracks": [ … ] }</code></pre>
 
 <p>It now answers:</p>
 
 <pre><code>{ "tracks": [ … ], "t": 1, "intro": {…}, "outro": {…},
-  "server": 4, "enc": "wdeBruh3qqn_i5wUNnyaPQQl1wp7r0Sr…" }</code></pre>
+  "server": 4, "enc": "&lt;base64url blob&gt;" }</code></pre>
 
-<p><code>sources</code> is gone entirely, replaced by <code>enc</code>. The extractor read <code>j.sources.file</code>, got <code>null</code>, and returned an empty source list. An empty list is indistinguishable from "this server has nothing", so it surfaced as a missing server rather than a changed format.</p>
+<p><code>sources</code> is gone, replaced by <code>enc</code>.</p>
 
 <h2>Why only some episodes broke</h2>
 
@@ -155,9 +126,9 @@ megaplay.buzz         /stream/getSources     → the data-id becomes a stream UR
 
 <p>Vidstream and HD are one stream listed twice; both embeds return the same <code>data-id</code>. Only VidPlay is a different chain, and it never stopped returning plaintext.</p>
 
-<p>So every episode that still played was quietly running on VidPlay. Episodes 10 and 12 simply were not listed with a VidPlay entry, leaving them with two links onto the one broken backend.</p>
+<p>So every episode that still played was quietly running on VidPlay. Episodes listed without a VidPlay entry were left with two links onto the one broken backend, and those are the ones that died.</p>
 
-<div class="box warn">
+<div class="box">
   <span class="label">Generalisable</span>
   <p>When a failure splits along an axis that looks arbitrary, enumerate what each case actually resolves to rather than trusting the labels. Three server names hiding two backends is why "try another server" appeared to work for some episodes and not others.</p>
 </div>
@@ -174,32 +145,35 @@ megaplay.buzz         /stream/getSources     → the data-id becomes a stream UR
 </table>
 </div>
 
-<p>The fix is to ask for the new endpoint first and keep the old one as a fallback:</p>
+<p>Ask for the new one first and keep the old one as a fallback:</p>
 
 <pre><code>async function getSources(base, embed, id) {
-    const headers = { 'User-Agent': UA, Referer: embed,
-                      'X-Requested-With': 'XMLHttpRequest' };
+    const headers = {
+        'User-Agent': UA,
+        Referer: embed,
+        'X-Requested-With': 'XMLHttpRequest',
+    };
     try {
-        const rNew = await hostFetch(`${base}/stream/getSourcesNew?id=${id}`, { headers });
-        const jNew = JSON.parse(rNew.body || 'null');
+        const rNew = await fetch(`${base}/stream/getSourcesNew?id=${id}`, { headers });
+        const jNew = JSON.parse(await rNew.text() || 'null');
         if (jNew && (jNew.sources || jNew.enc)) return jNew;
     } catch { /* fall through */ }
 
-    const r = await hostFetch(`${base}/stream/getSources?id=${id}`, { headers });
-    try { return JSON.parse(r.body || 'null'); } catch { return null; }
+    const r = await fetch(`${base}/stream/getSources?id=${id}`, { headers });
+    try { return JSON.parse(await r.text() || 'null'); } catch { return null; }
 }</code></pre>
 
 <p>The guard matters: a 404 body fails <code>JSON.parse</code> and falls through cleanly, and a response with neither field is treated as no answer rather than a valid empty one.</p>
 
-<p>This is safe for other hosts. VidPlay's <code>getSourcesNew</code> returns byte-identical content to its <code>getSources</code> — same file, same tracks — so it returns on the first call and costs no extra round trip.</p>
+<p>Safe for other hosts. VidPlay's <code>getSourcesNew</code> returns byte-identical content to its <code>getSources</code> — same file, same tracks — so it returns on the first call and costs no extra round trip.</p>
 
 <h2>The CDN trap</h2>
 
-<p>Getting a URL back is not the same as getting a playable one. The decrypted legacy payload points at a host that refuses video:</p>
+<p>Getting a URL back is not the same as getting a playable one. The legacy path points at a host that refuses video:</p>
 
 <div class="scroll">
 <table>
-  <tr><th>Host</th><th>Video <code>master.m3u8</code></th><th>Subtitle <code>.vtt</code></th></tr>
+  <tr><th>Host</th><th>video <code>master.m3u8</code></th><th>subtitle <code>.vtt</code></th></tr>
   <tr><td><code>cdn.imgnex.top</code></td><td class="bad">403</td><td class="ok">200</td></tr>
   <tr><td><code>ncdn.imgnex.top</code></td><td class="ok">200</td><td class="ok">200</td></tr>
 </table>
@@ -207,136 +181,47 @@ megaplay.buzz         /stream/getSources     → the data-id becomes a stream UR
 
 <p>Video is blocked on the bare host while subtitles still serve, so the rewrite is video-only:</p>
 
-<pre><code>const file = rawFile.replace(/^https?:\/\/cdn\.imgnex\.top\//i,
-                             'https://ncdn.imgnex.top/');</code></pre>
+<pre><code>file = file.replace(/^https?:\/\/cdn\.imgnex\.top\//i, 'https://ncdn.imgnex.top/');</code></pre>
 
 <p>Rewriting subtitle URLs too would be harmless here but wrong in principle — they are not blocked, and the narrower rule is the one that stays correct when only one of the two changes.</p>
 
-<div class="box">
-  <span class="label">Worth knowing</span>
-  <p><code>getSourcesNew</code> returns a different host again (<code>megap.shiora.site</code>), so on the working path this rewrite never fires. It only matters on the fallback.</p>
-</div>
+<p><code>getSourcesNew</code> returns a different host again, so on the working path this rewrite never fires.</p>
 
-<h2>A failure mode worth naming: the load-time crash</h2>
+<h2>Wiring it in</h2>
 
-<p>The first decryption module bundled a crypto library still wrapped in a UMD header — the pattern that probes for a global object to attach itself to, ending in <code>})(_root)</code> or <code>})(this)</code>.</p>
+<p>Keep reading plaintext first and treat anything else as the fallback:</p>
 
-<p>Under Hermes, and under any ES-module transpile, top-level <code>this</code> is <code>undefined</code>. Reaching for a property on it throws <em>while the module is being imported</em>, which means:</p>
+<pre><code>const j = await getSources(base, embed, id);   // new endpoint, then legacy
+const file = j?.sources?.file ?? j?.sources?.[0]?.file ?? null;
+if (!file) return [];</code></pre>
 
-<ul>
-  <li>the failure happens before any exported function can run;</li>
-  <li>every importer of that module fails with it;</li>
-  <li>and the visible symptom is not "decryption failed" but "decryption never happened".</li>
-</ul>
-
-<div class="box bad">
-  <span class="label">Diagnostic consequence</span>
-  <p>A module that throws at import time produces the same silence as a module that was never called. If a diagnostic cannot tell those apart, it will send you looking in the wrong half of the chain — which is exactly what happened here.</p>
-</div>
-
-<p>The fix is to not carry UMD wrappers into a bundler-managed module at all. A focused implementation of just the primitive needed — one cipher, one mode, one padding scheme — has no global scope to reach for and nothing to fail on load.</p>
-
-<h2>The decryption, as an interface</h2>
-
-<p>The cipher is AES-256-CBC with static parameters and PKCS#7 padding, over a Base64URL payload. The ciphertext is a clean multiple of 16 bytes with no salt header, so it is raw CBC rather than the OpenSSL <code>Salted__</code> framing that most libraries assume by default — which is why a naive drop-in call fails before the key is ever consulted.</p>
-
-<p>The parameters themselves live in <code>api/megaplay.ts</code> and are not reproduced here. What matters for integration is the contract:</p>
-
-<pre><code>export interface DecryptedSources { file: string; }
-
-export type DecryptErrorReason =
-    | 'invalid_input'      | 'bad_base64'
-    | 'bad_ciphertext_length' | 'decryption_failed'
-    | 'bad_pkcs7_padding'  | 'json_parse_error'
-    | 'no_file_in_payload';
-
-/** Never throws. Returns null and records why. */
-export function decryptSources(enc: string): DecryptedSources | null;
-export function decryptSourcesWithDiagnostic(enc: string): DecryptDiagnostic;
-export let lastMegaPlayError: DecryptErrorReason | null;</code></pre>
-
-<h3>Two properties that make it safe to integrate</h3>
-
-<ul>
-  <li><strong>It never throws.</strong> Extraction runs inside a fallback loop that moves to the next server on an empty result. A throw would escape that loop and abort the whole resolve, turning one bad server into a dead episode.</li>
-  <li><strong>It resets its error flag on entry.</strong> <code>decryptSourcesWithDiagnostic</code> clears <code>lastMegaPlayError</code> before doing anything, and <code>decryptSources</code> delegates to it. Without that reset, reading the flag after a later call would report a stale reason from an earlier server.</li>
-</ul>
-
-<h2>Wiring it into an extractor</h2>
-
-<p>One line, and the ordering in it is the whole design:</p>
-
-<pre><code>const rawFile = j?.sources?.file
-    ?? j?.sources?.[0]?.file
-    ?? (typeof j?.enc === 'string' ? decryptSources(j.enc)?.file ?? null : null);
-if (!rawFile) return [];</code></pre>
-
-<p>Plaintext is tried first, deliberately:</p>
+<p>That ordering is deliberate:</p>
 
 <ul>
   <li>hosts that never changed keep their existing path and cost nothing;</li>
-  <li>the decrypt runs only where it is actually needed;</li>
+  <li>the fallback runs only where it is actually needed;</li>
   <li>and if a host reverts to plaintext, it starts working again with no code change.</li>
 </ul>
 
-<p>Everything downstream — splitting the master playlist into a quality ladder, subtitle tracks, hardsub flags, subtitle/video pack skew — keys off the resulting <code>file</code> and needs no knowledge that a decrypt happened.</p>
-
-<div class="box">
-  <span class="label">Reading a live binding</span>
-  <p><code>lastMegaPlayError</code> is reassigned, so import the module namespace (<code>import * as megaplay</code>) and read <code>megaplay.lastMegaPlayError</code> rather than destructuring it. A named import of a mutable binding can be snapshotted by a bundler, and the failure mode is silent: the flag reads <code>null</code> forever and every decrypt failure is misreported as an empty server.</p>
-</div>
-
-<h2>Making the diagnostic tell the truth</h2>
-
-<p>Two things went wrong with diagnostics during this incident, both instructive.</p>
-
-<h3>Identical messages for different causes</h3>
-
-<p>An empty source list has two very different causes — the server had nothing, or the decrypt failed on what it had — and they want opposite fixes. A rotated key is not a dead server. Separating them:</p>
-
-<pre><code>const emptyReason = (fallback) => (megaplay.lastMegaPlayError
-    ? `Decrypt failed — ${megaplay.lastMegaPlayError.replace(/_/g, ' ')}`
-    : fallback);</code></pre>
-
-<div class="box bad">
-  <span class="label">The mistake worth avoiding</span>
-  <p>The first version of that fallback string was <em>byte-identical</em> to the message it replaced. That made an old build and a new build print the same text, so the diagnostic could not even establish which code was running. Give a replacement message different wording, or it cannot do the one job it was added for.</p>
-</div>
-
-<h3>Stopping at the first success</h3>
-
-<p>The test originally returned as soon as one server answered. That tells you playback works today and nothing about whether the rest of the chain still would — and since the decrypt fallback is never reached while <code>getSourcesNew</code> answers, it was never exercised at all.</p>
-
-<p>A fallback nobody has run is a guess. The test now probes every server, and adds a step that asks the legacy endpoint for an encrypted payload on purpose and puts it through the decrypt. That result is reported <em>beside</em> the overall verdict rather than folded into it: the fallback being broken is worth seeing, but it does not mean the video is unwatchable today.</p>
+<p>Everything downstream — splitting the master playlist into a quality ladder, subtitle tracks, hardsub flags — keys off the resulting <code>file</code> and needs no knowledge of which endpoint produced it.</p>
 
 <h2>Operational notes</h2>
 
 <ul>
-  <li><strong>The decrypt is dormant.</strong> While <code>getSourcesNew</code> answers, <code>decryptSources</code> never executes in normal playback. A green connection test confirms the endpoint works; only the explicit decrypt step covers the fallback.</li>
-  <li><strong>Static keys rotate.</strong> When they do, the fallback fails while playback continues on the plain endpoint — a silent degradation. The decrypt step in the connection test is what surfaces it.</li>
-  <li><strong>Both paths can go at once.</strong> If <code>getSourcesNew</code> is retired and the key rotates in the same change, there is no working path. Worth checking the endpoint occasionally rather than assuming.</li>
-  <li><strong>Host names are never hardcoded.</strong> CDN hostnames come out of the response; only the embed host patterns are matched, and loosely. A CDN migration should need no code change — the <code>ncdn</code> rewrite is a deliberate exception to that rule and should be revisited if the block lifts.</li>
+  <li><strong>Don't hardcode CDN hostnames.</strong> They come out of the response and they rotate — this incident alone saw <code>cdn.kryntal.top</code>, <code>cdn.imgnex.top</code>, <code>megap.shiora.site</code> and <code>megap.norami.top</code>, the last two within hours of each other. Only the embed host patterns are worth matching, and loosely.</li>
+  <li><strong>Referer matters at the CDN.</strong> It 403s without the one the player sends, so probe it exactly as playback will.</li>
+  <li><strong>A well-formed manifest is not a playing video.</strong> Fetch a segment and check you got media back. A playlist can return 200 and contain nothing but dead URLs — one we hit was 143 segments of ad-CDN links, every one a 403.</li>
+  <li><strong>An empty result and a changed format look identical.</strong> Reading <code>sources.file</code> and getting <code>null</code> reports as "this server has nothing", which is what sent this particular hunt into the wrong half of the chain for a while.</li>
 </ul>
 
-<h2>Method, generalised</h2>
+<h2>The legacy path</h2>
 
-<p>What made this tractable was not knowing anything about the cipher. It was:</p>
+<p>None of the above needs the <code>enc</code> payload decoded — <code>getSourcesNew</code> makes that unnecessary, and it is the route worth taking.</p>
 
-<ol>
-  <li><strong>Reproduce the exact chain outside the app.</strong> Curl each hop in order with the same headers. The app adds caching, retries and racing that hide which hop actually failed.</li>
-  <li><strong>Find the discriminator.</strong> Something worked and something did not. Enumerate what each case resolves to until the difference is concrete — here, the presence of a VidPlay entry.</li>
-  <li><strong>Compare against the working client.</strong> The site's own player kept playing, so it was doing something different. That difference was the fix, and it was cheaper than the cryptography.</li>
-  <li><strong>Verify to the bytes.</strong> A well-formed manifest is not a playing video. Fetch a segment and check it is media, not an error page — a playlist can return 200 and contain nothing but dead URLs.</li>
-</ol>
-
-<div class="box good">
-  <span class="label">The cheapest fix is usually not the clever one</span>
-  <p>Considerable effort went into the encryption before anyone checked whether the site had simply moved endpoints. It had. Look for the path the working client takes before reverse-engineering the one it abandoned.</p>
-</div>
+<p>If you do need the legacy endpoint decoded for something, the key is not published here. Open an issue on the repo and I'll share it directly.</p>
 
 <footer>
-  Tsuzuku · <code>api/servers.ts</code>, <code>api/megaplay.ts</code>, <code>api/diagnostics.ts</code><br>
-  Shipped 6 September 2026 under runtime <code>14603ec1155848f6199192df1c031965bb2a4ad1</code>.
+  <a href="https://github.com/Syha-01/Tsuzuku">github.com/Syha-01/Tsuzuku</a>
 </footer>
 
 </div>

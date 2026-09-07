@@ -14,39 +14,13 @@ nothing is blocked — the endpoint changed shape.
 encrypted blob instead. Any extractor reading `sources.file` got `null`, which
 surfaces as a missing server rather than a changed format.
 
-**The fix is not decryption.** MegaPlay's own web client had already moved to a
-second endpoint, `/stream/getSourcesNew`, which still returns the file in
-plaintext. Asking for that first restores playback.
-
----
-
-## The symptom
-
-Episodes 1–9 and 11 of a twelve-episode series played. Episodes 10 and 12 said
-no servers were available — while the same episodes played fine on the site.
-
-That split is the most useful thing in the whole incident, because it rules out
-the obvious explanations. Not the network, not DNS, not an ISP block, not the
-site being down — those take out a whole series, not two episodes of it.
-
-## The chain
-
-The video never comes from the site you browse. Four hops sit between a tap and
-a picture, each able to fail on its own:
-
-```
-anikototv.to    /ajax/server/list      → which servers exist for this episode
-anikototv.to    /ajax/server?get=id    → a link id becomes an embed URL
-megaplay.buzz   /stream/<path>         → the embed page, carrying a numeric data-id
-megaplay.buzz   /stream/getSources     → the data-id becomes a stream URL
-<cdn host>      master.m3u8            → the playlist, then segments
-```
-
-Checking the site in a browser tests hop one, which was never the problem.
+**The fix is an endpoint, not a cipher.** MegaPlay's own web client had already
+moved to `/stream/getSourcesNew`, which still returns the file in plaintext.
+Asking for that first restores playback.
 
 ## Root cause
 
-Hop four changed shape. It used to answer:
+`/stream/getSources` used to answer:
 
 ```json
 { "sources": { "file": "https://…/master.m3u8" }, "tracks": [ … ] }
@@ -75,9 +49,9 @@ Vidstream and HD are one stream listed twice; both embeds return the same
 `data-id`. Only VidPlay is a different chain, and it never stopped returning
 plaintext.
 
-So every episode that still played was quietly running on VidPlay. Episodes 10
-and 12 simply were not listed with a VidPlay entry, leaving them with two links
-onto the one broken backend.
+So every episode that still played was quietly running on VidPlay. Episodes
+listed without a VidPlay entry were left with two links onto the one broken
+backend, and those are the ones that died.
 
 > When a failure splits along an axis that looks arbitrary, enumerate what each
 > case actually resolves to rather than trusting the labels. Three server names
@@ -148,16 +122,15 @@ rewrite never fires.
 
 ## Wiring it in
 
-One line, and the ordering in it is the whole design:
+Keep reading plaintext first and treat anything else as the fallback:
 
 ```js
-const file = j?.sources?.file
-    ?? j?.sources?.[0]?.file
-    ?? (typeof j?.enc === 'string' ? decrypt(j.enc)?.file ?? null : null);
+const j = await getSources(base, embed, id);   // new endpoint, then legacy
+const file = j?.sources?.file ?? j?.sources?.[0]?.file ?? null;
 if (!file) return [];
 ```
 
-Plaintext is tried first, deliberately:
+That ordering is deliberate:
 
 - hosts that never changed keep their existing path and cost nothing;
 - the fallback runs only where it is actually needed;
@@ -165,75 +138,29 @@ Plaintext is tried first, deliberately:
 
 Everything downstream — splitting the master playlist into a quality ladder,
 subtitle tracks, hardsub flags — keys off the resulting `file` and needs no
-knowledge of how it was obtained.
-
-## A failure mode worth naming: the load-time crash
-
-If you do add a decryption fallback, watch what you pull in with it. A crypto
-library still wrapped in a UMD header — the pattern probing for a global to
-attach itself to, ending in `})(this)` or `})(_root)` — will break under Hermes
-and under any ES-module transpile, where top-level `this` is `undefined`.
-
-Reaching for a property on it throws *while the module is being imported*, which
-means:
-
-- the failure happens before any exported function can run;
-- every importer of that module fails with it;
-- and the visible symptom is not "decryption failed" but "decryption never happened".
-
-A module that throws at import time produces the same silence as a module that
-was never called. If your diagnostics cannot tell those apart, they will send
-you looking in the wrong half of the chain.
-
-The fix is not to carry UMD wrappers into a bundler-managed module at all. A
-focused implementation of just the primitive you need has no global scope to
-reach for and nothing to fail on load.
-
-## Diagnostics that tell the truth
-
-Two things worth building in, both learned the hard way here.
-
-**Separate the causes of an empty result.** "The server had nothing" and "the
-extraction failed on what it had" want opposite fixes. A changed format is not a
-dead server. If both print the same message you cannot tell which half of the
-chain to look at.
-
-**Give a replacement message different wording.** The first version of that
-fallback string was byte-identical to the message it replaced, which meant an
-old build and a new build printed the same text — so the diagnostic could not
-even establish which code was running.
-
-**Don't stop at the first success.** A test that returns as soon as one server
-answers tells you playback works today and nothing about whether the rest of the
-chain still would. Probe every server, and exercise any fallback explicitly — a
-fallback nobody has run is a guess.
+knowledge of which endpoint produced it.
 
 ## Operational notes
 
 - **Don't hardcode CDN hostnames.** They come out of the response and they
   rotate — this incident alone saw `cdn.kryntal.top`, `cdn.imgnex.top`,
-  `megap.shiora.site` and `megap.norami.top`. Only the embed host patterns are
-  worth matching, and loosely.
+  `megap.shiora.site` and `megap.norami.top`, the last two within hours of each
+  other. Only the embed host patterns are worth matching, and loosely.
 - **Referer matters at the CDN.** It 403s without the one the player sends, so
   probe it exactly as playback will.
 - **A well-formed manifest is not a playing video.** Fetch a segment and check
   you got media back. A playlist can return 200 and contain nothing but dead
-  URLs — we hit one that was 143 segments of ad-CDN links, every one a 403.
+  URLs — one we hit was 143 segments of ad-CDN links, every one a 403.
+- **An empty result and a changed format look identical.** Reading `sources.file`
+  and getting `null` reports as "this server has nothing", which is what sent
+  this particular hunt into the wrong half of the chain for a while.
 
-## Method, generalised
+---
 
-What made this tractable was not knowing anything about the cipher:
+## The legacy path
 
-1. **Reproduce the exact chain outside the app.** Curl each hop in order with
-   the same headers. Caching, retries and racing hide which hop actually failed.
-2. **Find the discriminator.** Something works and something doesn't. Enumerate
-   what each case resolves to until the difference is concrete.
-3. **Compare against the working client.** The site's own player kept playing,
-   so it was doing something different. That difference was the fix, and it was
-   cheaper than the cryptography.
-4. **Verify to the bytes.** Fetch a segment and confirm it is media, not an
-   error page.
+None of the above needs the `enc` payload decoded — `getSourcesNew` makes that
+unnecessary, and it is the route worth taking.
 
-> Considerable effort went into the encryption before anyone checked whether the
-> site had simply moved endpoints. It had. Look for the path the working client
-> takes before reverse-engineering the one it abandoned.
+If you do need the legacy endpoint decoded for something, the key is not
+published here. Open an issue on this repo and I'll share it directly.
