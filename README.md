@@ -8,7 +8,7 @@ between: nothing to go down between your phone and the source.
 
 | Build | Version | Released | Size | |
 | --- | --- | --- | --- | --- |
-| **Mobile (arm64)** — phone app (Android). Offline downloads, quality switching mid-episode, sub and dub, styleable subtitles. | v1.1.0 | 4 Sep 2026 | ~32 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v1.1.0/tsuzuku-v1.1.0-arm64.apk) |
+| **Mobile (arm64)** — phone app (Android). Offline downloads, subtitles translated on the phone, quality switching mid-episode, sub and dub, styleable subtitles. | v1.2.0 | 9 Sep 2026 | ~48 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v1.2.0/tsuzuku-v1.2.0-arm64.apk) |
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
 
@@ -47,7 +47,7 @@ audio track and subtitles sit in the controls rather than behind a settings gear
 <td align="center" width="25%"><img src="screenshots/10-settings-playback.webp" width="180" alt="Playback"><br><b>Playback</b><br><sub>Subtitle and autoplay defaults</sub></td>
 <td align="center" width="25%"><img src="screenshots/11-settings-display.webp" width="180" alt="Display"><br><b>Display</b><br><sub>Orientation, and where Saved opens</sub></td>
 <td align="center" width="25%"><img src="screenshots/12-settings-subtitles.webp" width="180" alt="Subtitles"><br><b>Subtitles</b><br><sub>Size, colour and background</sub></td>
-<td align="center" width="25%"><img src="screenshots/13-settings-downloads.webp" width="180" alt="Downloads"><br><b>Downloads</b><br><sub>Default quality and storage used</sub></td>
+<td align="center" width="25%"><img src="screenshots/13-settings-downloads.webp" width="180" alt="Downloads"><br><b>Downloads</b><br><sub>Default quality, segments at once, storage used</sub></td>
 </tr>
 <tr>
 <td align="center" width="25%"><img src="screenshots/14-settings-catalogue.webp" width="180" alt="Catalogue"><br><b>Catalogue</b><br><sub>Scraper version, and clearing its cache</sub></td>
@@ -62,6 +62,8 @@ audio track and subtitles sit in the controls rather than behind a settings gear
 ## What it does
 
 - **Episodes saved to the phone** — pick a batch, or hold one episode to grab just that one. They play with no connection at all, subtitles included, and the progress counts the same as if you had streamed it. Downloads keep running in the background and pick up where they stopped if the app is killed.
+- **Subtitles translated on the phone** — pick Spanish or Japanese in the player's subtitle menu and the track is translated on the device itself. The language pack comes down once, after which it needs no connection. An episode can be saved with the translated track baked in, so it reads the same offline.
+- **Episodes written out to a folder** — saved episodes can go to Downloads, an SD card or anywhere else on the phone as an MP4 with the subtitles inside it, rather than only being handed to another app.
 - **Quality switching that keeps playing** — pick a rendition mid-episode and the picture changes while the timeline doesn't. The choice is remembered across episodes.
 - **Sub and dub as separate lists**, switchable mid-watch.
 - **Subtitles rendered by the app** — size, colour and background are yours to set, and cues that drift against the video are pulled back into line.
