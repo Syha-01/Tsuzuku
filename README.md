@@ -12,6 +12,17 @@ between: nothing to go down between your phone and the source.
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
 
+## Beta — MyAnimeList sync
+
+| Build | Version | Released | Size | |
+| --- | --- | --- | --- | --- |
+| **Tsuzuku Beta (arm64)** — everything above, plus MyAnimeList sync: status, episodes watched, score and rewatches, in both directions. Installs *beside* the normal app with its own data. | v1.2.0-beta | 13 Sep 2026 | ~48 MB | [![Download Beta](https://img.shields.io/badge/Download-Beta%20APK-8957e5?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v1.2.0-beta-mal/tsuzuku-beta-v1.2.0-MAL-arm64.apk) |
+
+> **Not a daily driver.** The beta gets no over-the-air updates — the stable app
+> repairs itself in the background, this one cannot, so anything that breaks
+> stays broken until a new beta is posted. Keep the release build for everyday
+> watching. Android will warn on install: it is debug-signed, not release-signed.
+
 ## Screens
 
 <p align="center">
