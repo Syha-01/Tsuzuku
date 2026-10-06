@@ -8,20 +8,17 @@ between: nothing to go down between your phone and the source.
 
 | Build | Version | Released | Size | |
 | --- | --- | --- | --- | --- |
-| **Mobile (arm64)** — phone app (Android). Offline downloads, subtitles translated on the phone, quality switching mid-episode, sub and dub, styleable subtitles. | v1.2.0 | 9 Sep 2026 | ~48 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v1.2.0/tsuzuku-v1.2.0-arm64.apk) |
+| **Mobile (arm64)** — phone app (Android). Offline downloads, episodes saved to your phone with the subtitles inside, MyAnimeList and AniList sync, picture-in-picture, subtitles translated on the phone, sub and dub. | v3.2.0 | 6 Oct 2026 | ~53 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v3.2.0/tsuzuku-v3.2.0-arm64.apk) |
+| **Universal** — the same app for older 32-bit phones, a few releases behind. | v2.0.0 (2) | 20 Sep 2026 | ~72 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v2.0.0-2-universal/tsuzuku-v2.0.0-2-universal.apk) |
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
 
-## Beta — MyAnimeList sync
+### New in 3.2.0
 
-| Build | Version | Released | Size | |
-| --- | --- | --- | --- | --- |
-| **Tsuzuku Beta (arm64)** — everything above, plus MyAnimeList sync: status, episodes watched, score and rewatches, in both directions. Installs *beside* the normal app with its own data. | v1.2.0-beta | 13 Sep 2026 | ~48 MB | [![Download Beta](https://img.shields.io/badge/Download-Beta%20APK-8957e5?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v1.2.0-beta-mal/tsuzuku-beta-v1.2.0-MAL-arm64.apk) |
-
-> **Not a daily driver.** The beta gets no over-the-air updates — the stable app
-> repairs itself in the background, this one cannot, so anything that breaks
-> stays broken until a new beta is posted. Keep the release build for everyday
-> watching. Android will warn on install: it is debug-signed, not release-signed.
+Saved episodes play in every video player — the audio used to crackle in some
+and stall others completely — and saving one puts its subtitles inside the
+file. **Save all** writes every download to a folder in one go. Full notes on
+the [release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v3.2.0).
 
 ## Screens
 
@@ -74,19 +71,22 @@ audio track and subtitles sit in the controls rather than behind a settings gear
 
 - **Episodes saved to the phone** — pick a batch, or hold one episode to grab just that one. They play with no connection at all, subtitles included, and the progress counts the same as if you had streamed it. Downloads keep running in the background and pick up where they stopped if the app is killed.
 - **Subtitles translated on the phone** — pick Spanish or Japanese in the player's subtitle menu and the track is translated on the device itself. The language pack comes down once, after which it needs no connection. An episode can be saved with the translated track baked in, so it reads the same offline.
-- **Episodes written out to a folder** — saved episodes can go to Downloads, an SD card or anywhere else on the phone as an MP4 with the subtitles inside it, rather than only being handed to another app.
+- **Episodes written out to a folder** — saved episodes go to Downloads, an SD card or anywhere else on the phone, one at a time or all at once, with the subtitles inside the video (MKV) so they show in any player, on the phone or a computer.
 - **Quality switching that keeps playing** — pick a rendition mid-episode and the picture changes while the timeline doesn't. The choice is remembered across episodes.
 - **Sub and dub as separate lists**, switchable mid-watch.
 - **Subtitles rendered by the app** — size, colour and background are yours to set, and cues that drift against the video are pulled back into line.
 - **Player gestures** — double tap either side to seek and repeat taps stack into one jump, hold anywhere for 2×, drag on the left for brightness and on the right for volume. `+85s` clears a cold open plus the OP in one press.
+- **MyAnimeList and AniList** — sign in to bring your list with you and keep what you watch in step with it.
+- **Picture-in-picture** — go home mid-episode and it keeps playing in a corner, subtitles included.
 - **Continue watching, a saved list with progress, genre browsing and the airing schedule.**
 - **Updates over the air** — fixes arrive on their own; Settings → *Check for update* pulls one on demand.
 
 ## Which device
 
-The APK is built for 64-bit ARM phones — virtually every Android phone from
-2016 onward. There is no universal build: 32-bit phones, Intel-based devices
-and Android Studio emulators are not covered.
+The main APK is built for 64-bit ARM phones — virtually every Android phone
+from 2016 onward. Older 32-bit phones take the universal build, which stays on
+2.0.0 for now. Intel-based devices and Android Studio emulators are not
+covered.
 
 > Sideloaded APKs: when installing, allow "Install unknown apps" for your
 > browser or file manager. Android's "this file may harm your device" prompt is
