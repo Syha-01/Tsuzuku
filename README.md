@@ -1,24 +1,30 @@
 # Tsuzuku
 
 Release host for **Tsuzuku** — an Android anime app on the AniKoto source, with
-the scraper embedded on the phone. No account, no tracking, and no server in
-between: nothing to go down between your phone and the source.
+the scraper embedded on the phone. No account needed and no server between you
+and the episodes: nothing to go down between your phone and the source. The
+social side — rankings, watch parties, friends, backup — is there when you
+want it and off until you do.
 
 ## Direct download
 
 | Build | Version | Released | Size | |
 | --- | --- | --- | --- | --- |
-| **Mobile (arm64)** — phone app (Android). Offline downloads, episodes saved to your phone with the subtitles inside, MyAnimeList and AniList sync, picture-in-picture, subtitles translated on the phone, sub and dub. | v3.2.0 | 6 Oct 2026 | ~53 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v3.2.0/tsuzuku-v3.2.0-arm64.apk) |
-| **Universal** — the same app for older 32-bit phones, a few releases behind. | v2.0.0 (2) | 20 Sep 2026 | ~72 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v2.0.0-2-universal/tsuzuku-v2.0.0-2-universal.apk) |
+| **Mobile (arm64)** — phone app (Android). Rankings, watch parties with chat, friends, offline downloads, MyAnimeList and AniList sync, picture controls, picture-in-picture, subtitles translated on the phone, sub and dub. | v5.0.0 | 16 Oct 2026 | ~57 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.0.0/tsuzuku-v5.0.0-arm64.apk) |
+| **Universal** — the same app, for older 32-bit phones as well. | v5.0.0 | 16 Oct 2026 | ~85 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.0.0/tsuzuku-v5.0.0-universal.apk) |
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
 
-### New in 3.2.0
+### New in 5.0.0
 
-Saved episodes play in every video player — the audio used to crackle in some
-and stall others completely — and saving one puts its subtitles inside the
-file. **Save all** writes every download to a folder in one go. Full notes on
-the [release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v3.2.0).
+Tsuzuku goes social. **Rankings** count every episode you finish: climb eight
+ranks, top the weekly boards, take on a new challenge each week and collect
+fourteen secret titles. **Watch parties** keep everyone in sync with the host,
+with chat and reactions that show even in full screen. **Follow friends** to
+see their hours and what they are watching, **back up your list** across
+phones, and tune the picture with **brightness, contrast, colour and
+sharpness**. Full notes on the
+[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v5.0.0).
 
 ## Screens
 
@@ -69,6 +75,12 @@ audio track and subtitles sit in the controls rather than behind a settings gear
 
 ## What it does
 
+- **Rankings** — join with a name, or your AniList or MyAnimeList account, and every episode you finish counts towards eight ranks, boards for today, this week and this month, a weekly challenge, and fourteen secret titles to collect. Your picture on the boards is any AniList character or a photo of your own.
+- **Watch parties** — start one from a series page or the player and everyone plays, pauses and skips with the host. Chat with quick emoji and reactions, shown in full screen too. Share a link or a code, or make it public so anyone can join from Home.
+- **Friends** — follow people from the boards to see their hours beside yours and what they are watching right now, if they share it. Share a list of shows with a link.
+- **Picture controls** — brightness, contrast, colour and sharpness in the player, or one tap on Vivid.
+- **Backup** — saved shows, progress and settings kept under your name and brought back on a new phone.
+- **Edit Home** — the lists and genres you want, in your order.
 - **Episodes saved to the phone** — pick a batch, or hold one episode to grab just that one. They play with no connection at all, subtitles included, and the progress counts the same as if you had streamed it. Downloads keep running in the background and pick up where they stopped if the app is killed.
 - **Subtitles translated on the phone** — pick Spanish or Japanese in the player's subtitle menu and the track is translated on the device itself. The language pack comes down once, after which it needs no connection. An episode can be saved with the translated track baked in, so it reads the same offline.
 - **Episodes written out to a folder** — saved episodes go to Downloads, an SD card or anywhere else on the phone, one at a time or all at once, with the subtitles inside the video (MKV) so they show in any player, on the phone or a computer.
@@ -84,13 +96,21 @@ audio track and subtitles sit in the controls rather than behind a settings gear
 ## Which device
 
 The main APK is built for 64-bit ARM phones — virtually every Android phone
-from 2016 onward. Older 32-bit phones take the universal build, which stays on
-2.0.0 for now. Intel-based devices and Android Studio emulators are not
+from 2016 onward. Older 32-bit phones take the universal build, the same
+version. Intel-based devices and Android Studio emulators are not
 covered.
 
 > Sideloaded APKs: when installing, allow "Install unknown apps" for your
 > browser or file manager. Android's "this file may harm your device" prompt is
 > normal for any APK downloaded outside the Play Store.
+
+### What goes online
+
+Only what you choose. Joining the rankings sends the show, episode number and
+length of each episode you finish. Sharing what you watch, the backup and
+problem reports are switches in **Settings → Online**, all off to begin with.
+An anonymous install count — a random id, nothing about you — can be switched
+off there too.
 
 ### App won't load, or "can't reach the source"?
 
