@@ -10,21 +10,20 @@ want it and off until you do.
 
 | Build | Version | Released | Size | |
 | --- | --- | --- | --- | --- |
-| **Mobile (arm64)** — phone app (Android). Rankings, watch parties with chat, friends, offline downloads, MyAnimeList and AniList sync, picture controls, picture-in-picture, subtitles translated on the phone, sub and dub. | v5.0.0 | 16 Oct 2026 | ~57 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.0.0/tsuzuku-v5.0.0-arm64.apk) |
-| **Universal** — the same app, for older 32-bit phones as well. | v5.0.0 | 16 Oct 2026 | ~85 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.0.0/tsuzuku-v5.0.0-universal.apk) |
+| **Mobile (arm64)** — phone app (Android). Rankings, watch parties with chat, friends, offline downloads, MyAnimeList and AniList sync, typeset signs, Anime4K and picture controls, picture-in-picture, English or Español, sub and dub. | v5.2.0 | 24 Oct 2026 | ~66 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.2.0/tsuzuku-v5.2.0-arm64.apk) |
+| **Universal** — the same app, for older 32-bit phones as well. | v5.2.0 | 24 Oct 2026 | ~101 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.2.0/tsuzuku-v5.2.0-universal.apk) |
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
 
-### New in 5.0.0
+### New in 5.2.0
 
-Tsuzuku goes social. **Rankings** count every episode you finish: climb eight
-ranks, top the weekly boards, take on a new challenge each week and collect
-fourteen secret titles. **Watch parties** keep everyone in sync with the host,
-with chat and reactions that show even in full screen. **Follow friends** to
-see their hours and what they are watching, **back up your list** across
-phones, and tune the picture with **brightness, contrast, colour and
-sharpness**. Full notes on the
-[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v5.0.0).
+**Signs where they are**: on-screen signs and song lyrics show the way the
+release made them, in their own fonts and in the right place on the picture,
+where the episode has them. **Anime4K** sharpens lower-resolution streams on
+the phone as they play, in three modes, at full or half precision. Since 5.1
+there is also **English or Español per series**, a **Profile** page, one-scan
+TV sign-in, and a newer engine underneath. Full notes on the
+[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v5.2.0).
 
 ## Screens
 
