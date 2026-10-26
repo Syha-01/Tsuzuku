@@ -10,10 +10,17 @@ want it and off until you do.
 
 | Build | Version | Released | Size | |
 | --- | --- | --- | --- | --- |
-| **Mobile (arm64)** — phone app (Android). Rankings, watch parties with chat, friends, offline downloads, MyAnimeList and AniList sync, typeset signs, Anime4K and picture controls, picture-in-picture, English or Español, sub and dub. | v5.2.0 | 24 Oct 2026 | ~66 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.2.0/tsuzuku-v5.2.0-arm64.apk) |
-| **Universal** — the same app, for older 32-bit phones as well. | v5.2.0 | 24 Oct 2026 | ~101 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.2.0/tsuzuku-v5.2.0-universal.apk) |
+| **Mobile (arm64)** — phone app (Android). Rankings, watch parties with chat, friends, offline downloads, MyAnimeList and AniList sync, typeset signs, Anime4K and picture controls, picture-in-picture, English or Español, sub and dub. | v5.2.1 | 25 Oct 2026 | ~66 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.2.1/tsuzuku-v5.2.1-arm64.apk) |
+| **Universal** — the same app, for older 32-bit phones as well. | v5.2.1 | 25 Oct 2026 | ~101 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v5.2.1/tsuzuku-v5.2.1-universal.apk) |
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
+
+### New in 5.2.1
+
+A fix for the app closing when you change episodes, go Next or Previous, or
+turn the phone while signs are on screen, and for subtitles that went missing
+on a few shows with signs on. Notes on the
+[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v5.2.1).
 
 ### New in 5.2.0
 
