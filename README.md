@@ -6,6 +6,8 @@ and the episodes: nothing to go down between your phone and the source. The
 social side — rankings, watch parties, friends, backup — is there when you
 want it and off until you do.
 
+[![Support on Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF4D57?style=for-the-badge&logo=kofi&logoColor=white)](https://ko-fi.com/syha01)
+
 ## Direct download
 
 | Build | Version | Released | Size | |
