@@ -12,10 +12,19 @@ want it and off until you do.
 
 | Build | Version | Released | Size | |
 | --- | --- | --- | --- | --- |
-| **Mobile (arm64)** — phone app (Android). Chat and rooms for every show, Tsuzuku coins and the shop, rankings, watch parties, stories, friends, offline downloads, MyAnimeList and AniList sync, typeset signs, Anime4K and picture controls, picture-in-picture, English or Español, sub and dub. | v6.1.0 | 1 Nov 2026 | ~68 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v6.1.0/tsuzuku-v6.1.0-arm64.apk) |
-| **Universal** — the same app, for older 32-bit phones as well. | v6.1.0 | 1 Nov 2026 | ~103 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v6.1.0/tsuzuku-v6.1.0-universal.apk) |
+| **Mobile (arm64)** — phone app (Android). Chat and rooms for every show, Tsuzuku coins and the shop, rankings, watch parties, stories, friends, offline downloads, MyAnimeList and AniList sync, typeset signs, Anime4K and picture controls, picture-in-picture, English or Español, sub and dub. | v6.1.1 | 8 Nov 2026 | ~71 MB | [![Download APK](https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v6.1.1/tsuzuku-v6.1.1-arm64.apk) |
+| **Universal** — the same app, for older 32-bit phones as well. | v6.1.1 | 8 Nov 2026 | ~106 MB | [![Download Universal](https://img.shields.io/badge/Download-Universal-555555?style=for-the-badge&logo=android&logoColor=white)](https://github.com/Syha-01/Tsuzuku/releases/download/v6.1.1/tsuzuku-v6.1.1-universal.apk) |
 
 Every build is also listed on the [**Releases**](https://github.com/Syha-01/Tsuzuku/releases) page.
+
+### New in 6.1.1
+
+Everything since 6.1 in one install: **GIFs, @mentions and swipe to reply** in chat,
+**rewards** for ranks, titles, streaks and the weekly challenge, **faster downloads**
+that no longer stall, faster series pages, **Portuguese**, seek previews on most
+servers, and a new, entirely optional **Support Tsuzuku** in Settings. On 6.0 or 6.1
+you already have it as an update. Notes on the
+[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v6.1.1).
 
 ### New in 6.1.0
 
