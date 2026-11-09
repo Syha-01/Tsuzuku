@@ -26,44 +26,6 @@ servers, and a new, entirely optional **Support Tsuzuku** in Settings. On 6.0 or
 you already have it as an update. Notes on the
 [release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v6.1.1).
 
-### New in 6.1.0
-
-**Chat**: message the people you follow or start a group, and send a moment
-from an episode or a whole series. **Rooms**: General for everyone and a room
-for every show; in theatre, Discussion is the show's room, with the episode each
-message was sent from and spoilers hidden. **Stories** get reactions, and you
-can see who watched yours. **Tsuzuku coins** no longer need the rankings. A
-smaller player you can drag while you read, Anime4K and PiP one tap away, and
-fixes for dub lists, playback speed, subtitle timing and episode alerts. Notes
-on the [release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v6.1.0).
-
-### New in 6.0.0
-
-**Zuku and the shop**: watching earns Zuku, one for every 3 minutes, plus
-more for the weekly challenge and the week's #1. Spend them on profile frames,
-banners, name styles, board effects and party entrances, tried on you before
-you buy. **Five Halloween frames** are in the shop until November 3, and
-everyone gets **300 Zuku** to start. Also **My Collection** on your profile, a
-new top of Home, and a dark navigation bar on three-button phones. Notes on the
-[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v6.0.0).
-
-### New in 5.2.1
-
-A fix for the app closing when you change episodes, go Next or Previous, or
-turn the phone while signs are on screen, and for subtitles that went missing
-on a few shows with signs on. Notes on the
-[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v5.2.1).
-
-### New in 5.2.0
-
-**Signs where they are**: on-screen signs and song lyrics show the way the
-release made them, in their own fonts and in the right place on the picture,
-where the episode has them. **Anime4K** sharpens lower-resolution streams on
-the phone as they play, in three modes, at full or half precision. Since 5.1
-there is also **English or Español per series**, a **Profile** page, one-scan
-TV sign-in, and a newer engine underneath. Full notes on the
-[release page](https://github.com/Syha-01/Tsuzuku/releases/tag/v5.2.0).
-
 ## Screens
 
 <p align="center">
